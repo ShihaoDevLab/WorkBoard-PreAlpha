@@ -1,0 +1,275 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #202020 0%, #303030 100%);
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.card {
+    width: clamp(280px, 90vw, 512px);
+    height: auto;
+    min-height: 334px;
+    background: #505050;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.clock-display {
+    font-size: clamp(40px, 12vw, 64px);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    color: white;
+    letter-spacing: 2px;
+}
+
+.date-display {
+    font-size: clamp(16px, 5vw, 24px);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+    color: white;
+}
+
+.countdown-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.countdown-tag {
+    width: 100%;
+    max-width: 280px;
+    height: 40px;
+    background: #2C2C2C;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 8px;
+    position: relative;
+}
+
+.countdown-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    position: relative;
+}
+
+.countdown-text {
+    font-size: 14px;
+    color: #F5F5F5;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: #2C2C2C;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.edit-btn:hover {
+    transform: scale(1.1);
+    background: #3C3C3C;
+}
+
+.toolbar {
+    width: clamp(180px, 60vw, 206px);
+    height: 42px;
+    background: #505050;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 21px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.toolbar:hover {
+    transform: scale(1.05);
+}
+
+.toolbar-icon {
+    font-size: 18px;
+    color: white;
+}
+
+.toolbar-label {
+    font-size: clamp(12px, 4vw, 16px);
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.menu-btn {
+    width: clamp(80px, 40vw, 108px);
+    height: 42px;
+    background: #274A50;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.menu-btn:hover {
+    transform: scale(1.05);
+}
+
+.menu-label {
+    font-size: clamp(8px, 3vw, 10px);
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.alpha-label {
+    font-size: clamp(16px, 5vw, 24px);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #505050;
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    color: #F5F5F5;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2C2C2C;
+    color: white;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+.input-group input:focus {
+    outline: 2px solid #274A50;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.modal-buttons button:hover {
+    transform: scale(1.05);
+}
+
+.btn-cancel {
+    background: #2C2C2C;
+    color: #F5F5F5;
+}
+
+.btn-save {
+    background: #274A50;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 30px 20px;
+        min-height: 280px;
+    }
+    
+    .countdown-tag {
+        height: 36px;
+    }
+    
+    .countdown-text {
+        font-size: 12px;
+    }
+}

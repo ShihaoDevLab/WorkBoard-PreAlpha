@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkBoard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="clock-display" id="clock">11:45:14</div>
+            <div class="date-display" id="date">周四 2026/1/1</div>
+            
+            <div class="countdown-section">
+                <div class="countdown-tag">
+                    <div class="countdown-icon">⏰</div>
+                    <div class="countdown-text" id="countdownText">距离[倒计时]还剩X天</div>
+                </div>
+                <button class="edit-btn" id="editBtn" title="设置倒计时">✏️</button>
+            </div>
+        </div>
+        
+        <div class="toolbar">
+            <div class="toolbar-icon">☰</div>
+            <div class="toolbar-label">TODO：Toolbar.</div>
+        </div>
+        
+        <div class="menu-btn">
+            <div class="menu-label">TODO：Menu.</div>
+            <div class="alpha-label">ALPHA</div>
+        </div>
+    </div>
+    
+    <div class="modal" id="countdownModal">
+        <div class="modal-content">
+            <h2>设置倒计时</h2>
+            <div class="input-group">
+                <label for="countdownName">事件名称</label>
+                <input type="text" id="countdownName" placeholder="例如：新年">
+            </div>
+            <div class="input-group">
+                <label for="countdownDate">目标日期</label>
+                <input type="date" id="countdownDate">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" id="cancelBtn">取消</button>
+                <button class="btn-save" id="saveBtn">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
