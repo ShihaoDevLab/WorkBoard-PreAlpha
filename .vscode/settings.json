@@ -1,0 +1,12 @@
+{
+    "workbench.editor.customLabels.patterns": {
+        "*/index.html": "Web Page",
+        "*/style.css": "Style File",
+        "*/script.js": "Script File",
+        "*/.vscode/settings.json": "Editor Settings",
+        "*/README.md": "ReadMe",
+        "*/LICENSE": "MIT License",
+        "*/TODO.md": "To Do List",
+        "*/3RDPARTY.md": "Third Party Notices"
+    }
+}
