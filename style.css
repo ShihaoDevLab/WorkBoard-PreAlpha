@@ -213,6 +213,385 @@ body {
     color: white;
 }
 
+/* Navigation Menu */
+.nav-menu {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: #505050;
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+/* Settings Menu Button */
+.settings-menu {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+}
+
+.settings-btn {
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: #505050;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.settings-btn:hover {
+    transform: scale(1.1);
+    background: #3C3C3C;
+}
+
+.settings-btn.active {
+    background: #274A50;
+    transform: scale(1.15);
+}
+
+/* Settings Dropdown Menu */
+.settings-dropdown {
+    position: fixed;
+    bottom: 90px;
+    right: 30px;
+    background: #505050;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    display: none;
+    min-width: 200px;
+}
+
+.settings-dropdown.active {
+    display: block;
+}
+
+.settings-section {
+    margin-bottom: 15px;
+}
+
+.settings-section:last-child {
+    margin-bottom: 0;
+}
+
+.settings-label {
+    color: #F5F5F5;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-family: 'MiSans VF', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.settings-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.settings-option {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: #2C2C2C;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: #F5F5F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+    font-family: 'MiSans VF', sans-serif;
+}
+
+.settings-option:hover {
+    transform: scale(1.05);
+    background: #3C3C3C;
+}
+
+.settings-option.active {
+    background: #274A50;
+    transform: scale(1.1);
+}
+
+/* Countdown settings button in dropdown */
+#countdownSettingsBtn {
+    font-size: 18px;
+    width: 100%;
+    min-width: 100px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: #274A50;
+}
+
+#countdownSettingsBtn:hover {
+    background: #2f5a60;
+}
+
+/* Language/Font button styles (for dropdown) */
+.lang-btn,
+.font-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: #2C2C2C;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: #F5F5F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+    font-family: 'MiSans VF', sans-serif;
+}
+
+.lang-btn:hover,
+.font-btn:hover {
+    transform: scale(1.05);
+    background: #3C3C3C;
+}
+
+.lang-btn.active,
+.font-btn.active {
+    background: #274A50;
+    transform: scale(1.1);
+}
+
+.nav-btn {
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: #2C2C2C;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.nav-btn:hover {
+    transform: scale(1.1);
+    background: #3C3C3C;
+}
+
+.nav-btn.active {
+    background: #274A50;
+    transform: scale(1.15);
+}
+
+/* Card Visibility */
+.card.hidden {
+    display: none !important;
+}
+
+/* Stopwatch Styles */
+.stopwatch-display {
+    font-size: clamp(48px, 10vw, 96px);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    color: white;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+}
+
+.stopwatch-controls,
+.timer-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-start,
+.btn-stop,
+.btn-reset,
+.btn-clear {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: 'MiSans VF', sans-serif;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    font-weight: 500;
+}
+
+.btn-start:hover,
+.btn-stop:hover,
+.btn-reset:hover,
+.btn-clear:hover {
+    transform: scale(1.05);
+}
+
+.btn-start {
+    background: #275027;
+    color: white;
+}
+
+.btn-stop {
+    background: #502727;
+    color: white;
+}
+
+.btn-reset,
+.btn-clear {
+    background: #2C2C2C;
+    color: #F5F5F5;
+}
+
+/* Timer Styles */
+.timer-display {
+    font-size: clamp(48px, 10vw, 96px);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    color: white;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.timer-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px;
+    color: white;
+}
+
+.timer-input-group input {
+    width: 80px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2C2C2C;
+    color: white;
+    font-size: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    text-align: center;
+    font-weight: 500;
+}
+
+.timer-input-group input:focus {
+    outline: 2px solid #274A50;
+}
+
+/* Blackboard Styles */
+.blackboard-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.blackboard-header h2 {
+    color: white;
+    font-family: 'MiSans VF', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.blackboard-container {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.blackboard-canvas {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    background: #2C2C2C;
+    border-radius: 15px;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+/* Alert Styles */
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.alert-overlay.active {
+    display: flex;
+}
+
+.alert-box {
+    background: #505050;
+    border-radius: 20px;
+    padding: 30px 40px;
+    max-width: 400px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: white;
+    font-family: 'MiSans VF', sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.alert-box button {
+    margin-top: 20px;
+    padding: 10px 30px;
+    background: #274A50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'MiSans VF', sans-serif;
+    transition: transform 0.2s;
+}
+
+.alert-box button:hover {
+    transform: scale(1.05);
+}
+
+/* Timer Alert Sound (visual feedback) */
+.timer-alert-active .timer-display {
+    animation: pulse 0.5s ease-in-out infinite alternate;
+    color: #ff6b6b;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+}
+
 @media (max-width: 768px) {
     body {
         padding: 15px;
@@ -254,5 +633,72 @@ body {
         width: 42px;
         height: 42px;
         font-size: 18px;
+    }
+
+    .nav-menu {
+        bottom: 15px;
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .stopwatch-display,
+    .timer-display {
+        font-size: clamp(36px, 12vw, 64px);
+    }
+
+    .timer-input-group input {
+        width: 60px;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .btn-start,
+    .btn-stop,
+    .btn-reset,
+    .btn-clear {
+        padding: 10px 18px;
+        font-size: 14px;
+    }
+
+    .settings-menu {
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .settings-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .settings-dropdown {
+        bottom: 70px;
+        right: 15px;
+        min-width: 180px;
+        padding: 12px;
+    }
+
+    .settings-label {
+        font-size: 11px;
+    }
+
+    .settings-option,
+    .lang-btn,
+    .font-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 11px;
+    }
+
+    #countdownSettingsBtn {
+        width: 100%;
+        min-width: 100px;
+        font-size: 16px;
     }
 }

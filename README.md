@@ -1,10 +1,9 @@
 # WorkBoard
 A simple web clock (WIP)
 
-# 介绍
+# Introduction
 TODO...
 
-## 附注
+## Notes
 
-
-本项目是在基于 [Xiaomi MiMo V2 Flash](https://mimo.xiaomi.com/zh/index) 的 [GitHub Copilot](https://github.com/features/copilot)，以及 [CodeBuddy CN](https://copilot.tencent.com) 的帮助下完成的。
+This project was created with the help of [GitHub Copilot](https://github.com/features/copilot) based on [Xiaomi MiMo V2 Flash](https://mimo.xiaomi.com/zh/index), and [CodeBuddy CN](https://copilot.tencent.com).

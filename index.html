@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <div class="card">
+        <div class="card" id="mainCard">
             <div class="clock-display" id="clock">--:--:--</div>
             <div class="date-display" id="date">WorkBoard Loading...</div>
 
@@ -19,27 +19,103 @@
                     <div class="countdown-icon">⌛</div>
                     <div class="countdown-text" id="countdownText">Loading countdown...</div>
                 </div>
-                <button class="edit-btn" id="editBtn" title="Set Countdown">✏️</button>
             </div>
         </div>
 
+        <!-- Stopwatch Card (Hidden by default) -->
+        <div class="card hidden" id="stopwatchCard">
+            <div class="stopwatch-display" id="stopwatchDisplay">00:00:00.000</div>
+            <div class="stopwatch-controls">
+                <button class="btn-start" id="stopwatchStart">Start</button>
+                <button class="btn-stop" id="stopwatchStop">Stop</button>
+                <button class="btn-reset" id="stopwatchReset">Reset</button>
+            </div>
+        </div>
 
+        <!-- Timer Card (Hidden by default) -->
+        <div class="card hidden" id="timerCard">
+            <div class="timer-display" id="timerDisplay">00:00:00</div>
+            <div class="timer-input-group">
+                <input type="number" id="timerHours" min="0" max="99" placeholder="HH" value="0">
+                <span>:</span>
+                <input type="number" id="timerMinutes" min="0" max="59" placeholder="MM" value="0">
+                <span>:</span>
+                <input type="number" id="timerSeconds" min="0" max="59" placeholder="SS" value="0">
+            </div>
+            <div class="timer-controls">
+                <button class="btn-start" id="timerStart">Start</button>
+                <button class="btn-stop" id="timerStop">Stop</button>
+                <button class="btn-reset" id="timerReset">Reset</button>
+            </div>
+        </div>
+
+        <!-- Blackboard Card (Hidden by default) -->
+        <div class="card hidden" id="blackboardCard">
+            <div class="blackboard-header">
+                <h2>Blackboard</h2>
+                <button class="btn-clear" id="blackboardClear">Clear</button>
+            </div>
+            <div class="blackboard-container">
+                <canvas class="blackboard-canvas" id="blackboardCanvas"></canvas>
+            </div>
+        </div>
     </div>
 
+    <!-- Navigation Menu -->
+    <div class="nav-menu" id="navMenu">
+        <button class="nav-btn active" data-view="clock" title="Clock">⏰</button>
+        <button class="nav-btn" data-view="stopwatch" title="Stopwatch">⏱️</button>
+        <button class="nav-btn" data-view="timer" title="Timer">⏲️</button>
+        <button class="nav-btn" data-view="blackboard" title="Blackboard">📝</button>
+    </div>
+
+    <!-- Settings Menu Button -->
+    <div class="settings-menu" id="settingsMenu">
+        <button class="settings-btn" id="settingsBtn" title="Settings">⚙️</button>
+    </div>
+
+    <!-- Settings Dropdown Menu -->
+    <div class="settings-dropdown" id="settingsDropdown">
+        <div class="settings-section">
+            <div class="settings-label">Language</div>
+            <div class="settings-buttons">
+                <button class="settings-option lang-btn" data-lang="en">EN</button>
+                <button class="settings-option lang-btn" data-lang="zh-CN">简</button>
+                <button class="settings-option lang-btn" data-lang="zh-TW">繁</button>
+            </div>
+        </div>
+        <div class="settings-section">
+            <div class="settings-label">Font</div>
+            <div class="settings-buttons">
+                <button class="settings-option font-btn" data-font="MiSans VF">Aa</button>
+                <button class="settings-option font-btn" data-font="JetBrains Mono">Mono</button>
+                <button class="settings-option font-btn" data-font="Arial">Sans</button>
+                <button class="settings-option font-btn" data-font="Georgia">Serif</button>
+            </div>
+        </div>
+        <div class="settings-section">
+            <div class="settings-label">Countdown</div>
+            <div class="settings-buttons">
+                <button class="settings-option" id="countdownSettingsBtn" title="Set Countdown">✏️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Countdown Modal -->
     <div class="modal" id="countdownModal">
         <div class="modal-content">
-            <h2>设置倒计时</h2>
+            <h2>Set Countdown</h2>
             <div class="input-group">
-                <label for="countdownName">倒计时名称</label>
-                <input type="text" id="countdownName" placeholder="在这里填写事件名称">
+                <label for="countdownName">Countdown Name</label>
+                <input type="text" id="countdownName" placeholder="Enter event name here">
             </div>
             <div class="input-group">
-                <label for="countdownDate">目标日期</label>
+                <label for="countdownDate">Target Date</label>
                 <input type="date" id="countdownDate">
             </div>
             <div class="modal-buttons">
-                <button class="btn-cancel" id="cancelBtn">取消</button>
-                <button class="btn-save" id="saveBtn">保存</button>
+                <button class="btn-cancel" id="cancelBtn">Cancel</button>
+                <button class="btn-save" id="saveBtn">Save</button>
             </div>
         </div>
     </div>
