@@ -77,27 +77,38 @@
     <!-- Settings Dropdown Menu -->
     <div class="settings-dropdown" id="settingsDropdown">
         <div class="settings-section">
-            <div class="settings-label">Language</div>
-            <div class="settings-buttons">
-                <button class="settings-option lang-btn" data-lang="en">EN</button>
-                <button class="settings-option lang-btn" data-lang="zh-CN">简</button>
-                <button class="settings-option lang-btn" data-lang="zh-TW">繁</button>
+            <div class="settings-label" id="labelTheme">Theme</div>
+            <div class="theme-options">
+                <button class="settings-option theme-btn" data-theme="auto" title="Auto">💻</button>
+                <button class="settings-option theme-btn" data-theme="light" title="Light">☀️</button>
+                <button class="settings-option theme-btn" data-theme="dark" title="Dark">🌑</button>
             </div>
         </div>
         <div class="settings-section">
-            <div class="settings-label">Font</div>
-            <div class="settings-buttons">
-                <button class="settings-option font-btn" data-font="MiSans VF">Aa</button>
-                <button class="settings-option font-btn" data-font="JetBrains Mono">Mono</button>
-                <button class="settings-option font-btn" data-font="Arial">Sans</button>
-                <button class="settings-option font-btn" data-font="Georgia">Serif</button>
-            </div>
+            <div class="settings-label" id="labelLanguage">Language</div>
+            <select class="settings-select" id="languageSelect">
+                <option value="en">English</option>
+                <option value="zh-CN">简体中文</option>
+                <option value="zh-TW">繁體中文</option>
+            </select>
         </div>
         <div class="settings-section">
-            <div class="settings-label">Countdown</div>
+            <div class="settings-label" id="labelFont">Font</div>
+            <select class="settings-select" id="fontSelect">
+                <option value="MiSans VF">MiSans VF (Default)</option>
+                <option value="JetBrains Mono">JetBrains Mono</option>
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+            </select>
+        </div>
+        <div class="settings-section">
+            <div class="settings-label" id="labelCountdown">Countdown</div>
             <div class="settings-buttons">
                 <button class="settings-option" id="countdownSettingsBtn" title="Set Countdown">✏️</button>
             </div>
+        </div>
+        <div class="settings-section">
+            <button id="aboutBtn">ℹ️ About WorkBoard</button>
         </div>
     </div>
 
@@ -111,11 +122,37 @@
             </div>
             <div class="input-group">
                 <label for="countdownDate">Target Date</label>
-                <input type="date" id="countdownDate">
+                <input type="datetime-local" id="countdownDate" step="1">
             </div>
             <div class="modal-buttons">
                 <button class="btn-cancel" id="cancelBtn">Cancel</button>
+                <button class="btn-cancel" id="clearCountdownBtn" style="background-color: var(--danger-color); color: white;">Clear</button>
                 <button class="btn-save" id="saveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <h2 id="aboutTitle">About WorkBoard</h2>
+            <div style="color: var(--text-primary); font-family: 'MiSans VF', sans-serif; font-size: 14px; line-height: 1.6;">
+                <p><strong>WorkBoard</strong> v1.1</p>
+                <br>
+                <p id="aboutDesc">A simple, offline-first productivity dashboard.</p>
+                <br>
+                <p>Features:</p>
+                <ul style="padding-left: 20px;">
+                    <li>Clock & Date</li>
+                    <li>Countdown Timer</li>
+                    <li>Stopwatch & Timer</li>
+                    <li>Blackboard</li>
+                </ul>
+                <br>
+                <p>Created with AI assistance.</p>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" id="aboutCloseBtn">Close</button>
             </div>
         </div>
     </div>

@@ -8,5 +8,6 @@
         "*/LICENSE": "MIT License",
         "*/TODO.md": "To Do List",
         "*/3RDPARTY.md": "Third Party Notices"
-    }
+    },
+    "markdown.validate.enabled": true
 }

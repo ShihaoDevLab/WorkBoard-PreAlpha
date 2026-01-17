@@ -1,8 +1,8 @@
 // Clock functionality
 function updateClock() {
     const now = new Date();
-    const userLocale = navigator.language || "en-US";
-    // const userLocale = "en-US";
+    // Use currentLang for locale format, fallback to en-US if needed
+    const userLocale = currentLang === 'en' ? 'en-US' : currentLang;
 
     // Update time using system format
     const timeString = now.toLocaleTimeString(userLocale, {
@@ -65,18 +65,21 @@ function updateCountdown() {
 
     const now = new Date();
     const targetDate = new Date(countdownData.date);
-    // Set target time to midnight of the target date in local timezone
-    targetDate.setHours(0, 0, 0, 0);
+    // Set target time to the specific time set by user
+    // targetDate.setHours(0, 0, 0, 0); // No longer needed as we use full datetime
 
     const diff = targetDate - now;
-    const userLocale = navigator.language || "en-US";
+    // Use currentLang for locale format, fallback to en-US if needed
+    const userLocale = currentLang === 'en' ? 'en-US' : currentLang;
 
     if (diff <= 0) {
         // Use system format to display target date
-        const targetDateString = targetDate.toLocaleDateString(userLocale, {
+        const targetDateString = targetDate.toLocaleString(userLocale, {
             year: "numeric",
             month: "numeric",
             day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
         });
         document.getElementById("countdownText").textContent = `${countdownData.name} (${targetDateString}) ${t("countdownHasArrived")}`;
         return;
@@ -85,27 +88,32 @@ function updateCountdown() {
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
     // Use system format to display target date
-    const targetDateString = targetDate.toLocaleDateString(userLocale, {
+    const targetDateString = targetDate.toLocaleString(userLocale, {
         year: "numeric",
         month: "numeric",
         day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
     });
 
     let text = `${t("countdownTimeUntil")}${countdownData.name} (${targetDateString}): `;
 
     if (days > 0) {
-        text += `${days} ${days > 1 ? t("days") : t("day")}`;
-        // if (hours > 0) text += `${hours} ${hours > 1 ? t('hours') : t('hour')}`;
-    } else if (hours > 0) {
-        text += `${hours} ${hours > 1 ? t("hours") : t("hour")}`;
-        // if (minutes > 0) text += `${minutes} ${minutes > 1 ? t('minutes') : t('minute')}`;
-    } else if (minutes > 0) {
-        // text += `${minutes} ${minutes > 1 ? t('minutes') : t('minute')}`;
-    } else {
-        text += t("countdownLessThanMinute");
+        text += `${days} ${days > 1 ? t("days") : t("day")} `;
     }
+    
+    if (days > 0 || hours > 0) {
+        text += `${hours} ${hours > 1 ? t("hours") : t("hour")} `;
+    }
+    
+    if (days > 0 || hours > 0 || minutes > 0) {
+        text += `${minutes} ${minutes > 1 ? t("minutes") : t("minute")} `;
+    }
+    
+    text += `${seconds} ${seconds > 1 ? t("seconds") : t("second")}`;
 
     document.getElementById("countdownText").textContent = text;
 }
@@ -121,6 +129,7 @@ function updateCountdownDisplay() {
 // Modal control
 const modal = document.getElementById("countdownModal");
 const cancelBtn = document.getElementById("cancelBtn");
+const clearCountdownBtn = document.getElementById("clearCountdownBtn");
 const saveBtn = document.getElementById("saveBtn");
 const countdownNameInput = document.getElementById("countdownName");
 const countdownDateInput = document.getElementById("countdownDate");
@@ -131,7 +140,16 @@ const countdownSettingsBtn = document.getElementById("countdownSettingsBtn");
 countdownSettingsBtn.addEventListener("click", () => {
     modal.classList.add("active");
     countdownNameInput.value = countdownData.name === "" ? "" : countdownData.name;
-    countdownDateInput.value = countdownData.date || "";
+    // Format for datetime-local input: YYYY-MM-DDTHH:mm:ss
+    if (countdownData.date) {
+        const d = new Date(countdownData.date);
+        // Adjust for timezone offset to show correct local time in input
+        const tzOffset = d.getTimezoneOffset() * 60000;
+        const localISOTime = new Date(d - tzOffset).toISOString().slice(0, 19);
+        countdownDateInput.value = localISOTime;
+    } else {
+        countdownDateInput.value = "";
+    }
 
     // Close settings dropdown
     const settingsDropdown = document.getElementById("settingsDropdown");
@@ -141,6 +159,14 @@ countdownSettingsBtn.addEventListener("click", () => {
 });
 
 cancelBtn.addEventListener("click", () => {
+    modal.classList.remove("active");
+});
+
+clearCountdownBtn.addEventListener("click", () => {
+    countdownData.name = "";
+    countdownData.date = null;
+    saveCountdownData();
+    updateCountdownDisplay();
     modal.classList.remove("active");
 });
 
@@ -204,7 +230,7 @@ const translations = {
         countdownLoading: "Loading countdown...",
         countdownFirst: "Please set a countdown first",
         countdownHasArrived: "has arrived!",
-        countdownTimeUntil: "Time until",
+        countdownTimeUntil: "Time until ",
         countdownLessThanMinute: "Less than 1 minute",
         countdownSet: "Set Countdown",
         countdownName: "Countdown Name",
@@ -212,6 +238,7 @@ const translations = {
         countdownDate: "Target Date",
         countdownCancel: "Cancel",
         countdownSave: "Save",
+        countdownClear: "Clear",
         countdownAlertMissing: "Please enter both event name and target date",
         countdownAlertPast: "Please select today or a future date",
         countdownAlertFull: "Failed to save countdown data. Local storage might be full or disabled.",
@@ -235,6 +262,16 @@ const translations = {
         minutes: "minutes",
         second: "second",
         seconds: "seconds",
+        theme: "Theme",
+        themeAuto: "Auto",
+        themeLight: "Light",
+        themeDark: "Dark",
+        language: "Language",
+        font: "Font",
+        about: "About WorkBoard",
+        aboutTitle: "About WorkBoard",
+        aboutDesc: "A simple, offline-first productivity dashboard.",
+        close: "Close",
     },
     "zh-CN": {
         clockLoading: "WorkBoard 加载中...",
@@ -249,6 +286,7 @@ const translations = {
         countdownDate: "目标日期",
         countdownCancel: "取消",
         countdownSave: "保存",
+        countdownClear: "清除",
         countdownAlertMissing: "请填写完整的事件名称和目标日期",
         countdownAlertPast: "请选择今天或未来的日期",
         countdownAlertFull: "保存倒计时数据失败。本地存储可能已满或被禁用。",
@@ -272,6 +310,16 @@ const translations = {
         minutes: "分钟",
         second: "秒",
         seconds: "秒",
+        theme: "主题",
+        themeAuto: "跟随系统",
+        themeLight: "浅色",
+        themeDark: "深色",
+        language: "语言",
+        font: "字体",
+        about: "关于 WorkBoard",
+        aboutTitle: "关于 WorkBoard",
+        aboutDesc: "一个简单、离线优先的生产力仪表盘。",
+        close: "关闭",
     },
     "zh-TW": {
         clockLoading: "WorkBoard 載入中...",
@@ -286,6 +334,7 @@ const translations = {
         countdownDate: "目標日期",
         countdownCancel: "取消",
         countdownSave: "儲存",
+        countdownClear: "清除",
         countdownAlertMissing: "請填寫完整的事件名稱和目標日期",
         countdownAlertPast: "請選擇今天或未來的日期",
         countdownAlertFull: "儲存倒數計時資料失敗。本機儲存可能已滿或被禁用。",
@@ -309,6 +358,16 @@ const translations = {
         minutes: "分鐘",
         second: "秒",
         seconds: "秒",
+        theme: "主題",
+        themeAuto: "跟隨系統",
+        themeLight: "淺色",
+        themeDark: "深色",
+        language: "語言",
+        font: "字體",
+        about: "關於 WorkBoard",
+        aboutTitle: "關於 WorkBoard",
+        aboutDesc: "一個簡單、離線優先的生產力儀表板。",
+        close: "關閉",
     },
 };
 
@@ -324,10 +383,11 @@ function setLanguage(lang) {
 }
 
 function updateLanguageUI() {
-    // Update language buttons
-    document.querySelectorAll(".lang-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.lang === currentLang);
-    });
+    // Update language select
+    const languageSelect = document.getElementById("languageSelect");
+    if (languageSelect.value !== currentLang) {
+        languageSelect.value = currentLang;
+    }
 }
 
 function updateAllTexts() {
@@ -341,6 +401,7 @@ function updateAllTexts() {
     document.getElementById("countdownName").placeholder = t("countdownNamePlaceholder");
     document.querySelector('label[for="countdownDate"]').textContent = t("countdownDate");
     document.getElementById("cancelBtn").textContent = t("countdownCancel");
+    document.getElementById("clearCountdownBtn").textContent = t("countdownClear");
     document.getElementById("saveBtn").textContent = t("countdownSave");
 
     // Update countdown settings button in dropdown
@@ -359,6 +420,22 @@ function updateAllTexts() {
     if (alertOk) {
         alertOk.textContent = t("alertOk");
     }
+
+    // Update settings labels
+    document.getElementById("labelTheme").textContent = t("theme");
+    // document.querySelector('.theme-btn[data-theme="auto"]').textContent = t("themeAuto");
+    document.querySelector('.theme-btn[data-theme="auto"]').title = t("themeAuto");
+    document.querySelector('.theme-btn[data-theme="light"]').title = t("themeLight");
+    document.querySelector('.theme-btn[data-theme="dark"]').title = t("themeDark");
+    document.getElementById("labelLanguage").textContent = t("language");
+    document.getElementById("labelFont").textContent = t("font");
+    document.getElementById("labelCountdown").textContent = t("countdownSet");
+    document.getElementById("aboutBtn").textContent = "ℹ️ " + t("about");
+
+    // Update About Modal
+    document.getElementById("aboutTitle").textContent = t("aboutTitle");
+    document.getElementById("aboutDesc").textContent = t("aboutDesc");
+    document.getElementById("aboutCloseBtn").textContent = t("close");
 
     // Update countdown display
     updateCountdownDisplay();
@@ -386,6 +463,11 @@ function setupNavigation() {
             Object.values(cards).forEach((card) => card.classList.add("hidden"));
             if (cards[view]) {
                 cards[view].classList.remove("hidden");
+                // Resize blackboard if switching to it
+                if (view === "blackboard") {
+                    // Small delay to ensure display:block is applied and layout is done
+                    setTimeout(resizeBlackboard, 0);
+                }
             }
         });
     });
@@ -663,22 +745,14 @@ function showAlert(message) {
 
 // Font selector setup
 function setupFontSelector() {
-    const fontBtns = document.querySelectorAll(".font-btn");
-    const clockDisplay = document.getElementById("clock");
-    const dateDisplay = document.getElementById("date");
-    const countdownText = document.getElementById("countdownText");
-    const stopwatchDisplay = document.getElementById("stopwatchDisplay");
-    const timerDisplay = document.getElementById("timerDisplay");
-
+    const fontSelect = document.getElementById("fontSelect");
+    
     // Load saved font or use default
     const savedFont = localStorage.getItem("workboardFont") || "MiSans VF";
     setFont(savedFont);
 
-    fontBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            const font = btn.dataset.font;
-            setFont(font);
-        });
+    fontSelect.addEventListener("change", (e) => {
+        setFont(e.target.value);
     });
 }
 
@@ -688,43 +762,110 @@ function setFont(font) {
     const countdownText = document.getElementById("countdownText");
     const stopwatchDisplay = document.getElementById("stopwatchDisplay");
     const timerDisplay = document.getElementById("timerDisplay");
-
-    // Update font buttons
-    document.querySelectorAll(".font-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.font === font);
-    });
+    
+    // Update select value
+    const fontSelect = document.getElementById("fontSelect");
+    if (fontSelect.value !== font) {
+        fontSelect.value = font;
+    }
 
     // Apply font to different elements
+    let fontFamily = "'MiSans VF', sans-serif";
+    let monoFont = "'JetBrains Mono', monospace";
+
     if (font === "JetBrains Mono") {
-        // Use monospace font for time displays
-        clockDisplay.style.fontFamily = "'JetBrains Mono', monospace";
-        stopwatchDisplay.style.fontFamily = "'JetBrains Mono', monospace";
-        timerDisplay.style.fontFamily = "'JetBrains Mono', monospace";
-        dateDisplay.style.fontFamily = "'JetBrains Mono', monospace";
-        countdownText.style.fontFamily = "'JetBrains Mono', monospace";
+        fontFamily = "'JetBrains Mono', monospace";
     } else if (font === "Arial") {
-        clockDisplay.style.fontFamily = "Arial, sans-serif";
-        stopwatchDisplay.style.fontFamily = "Arial, sans-serif";
-        timerDisplay.style.fontFamily = "Arial, sans-serif";
-        dateDisplay.style.fontFamily = "Arial, sans-serif";
-        countdownText.style.fontFamily = "Arial, sans-serif";
+        fontFamily = "Arial, sans-serif";
+        monoFont = "Arial, sans-serif";
     } else if (font === "Georgia") {
-        clockDisplay.style.fontFamily = "Georgia, serif";
-        stopwatchDisplay.style.fontFamily = "Georgia, serif";
-        timerDisplay.style.fontFamily = "Georgia, serif";
-        dateDisplay.style.fontFamily = "Georgia, serif";
-        countdownText.style.fontFamily = "Georgia, serif";
-    } else {
-        // Default MiSans VF
-        clockDisplay.style.fontFamily = "'JetBrains Mono', monospace";
-        stopwatchDisplay.style.fontFamily = "'JetBrains Mono', monospace";
-        timerDisplay.style.fontFamily = "'JetBrains Mono', monospace";
-        dateDisplay.style.fontFamily = "'MiSans VF', sans-serif";
-        countdownText.style.fontFamily = "'MiSans VF', sans-serif";
+        fontFamily = "Georgia, serif";
+        monoFont = "Georgia, serif";
     }
+
+    // Apply to elements
+    clockDisplay.style.fontFamily = monoFont;
+    stopwatchDisplay.style.fontFamily = monoFont;
+    timerDisplay.style.fontFamily = monoFont;
+    dateDisplay.style.fontFamily = fontFamily;
+    countdownText.style.fontFamily = fontFamily;
 
     // Save to localStorage
     localStorage.setItem("workboardFont", font);
+}
+
+// Theme setup
+let currentTheme = "auto";
+
+function setupThemeSelector() {
+    const themeBtns = document.querySelectorAll(".theme-btn");
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem("workboardTheme") || "auto";
+    setTheme(savedTheme);
+
+    themeBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            setTheme(btn.dataset.theme);
+        });
+    });
+
+    // Listen for system theme changes
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+        if (currentTheme === "auto") {
+            applyTheme(e.matches ? "dark" : "light");
+        }
+    });
+}
+
+function setTheme(theme) {
+    currentTheme = theme;
+    localStorage.setItem("workboardTheme", theme);
+    
+    // Update buttons
+    document.querySelectorAll(".theme-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.theme === theme);
+    });
+
+    // Apply theme
+    if (theme === "auto") {
+        const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        applyTheme(isDark ? "dark" : "light");
+    } else {
+        applyTheme(theme);
+    }
+}
+
+function applyTheme(theme) {
+    if (theme === "light") {
+        document.body.classList.add("light-mode");
+    } else {
+        document.body.classList.remove("light-mode");
+    }
+}
+
+// About Modal setup
+function setupAboutModal() {
+    const aboutBtn = document.getElementById("aboutBtn");
+    const aboutModal = document.getElementById("aboutModal");
+    const aboutCloseBtn = document.getElementById("aboutCloseBtn");
+
+    aboutBtn.addEventListener("click", () => {
+        aboutModal.classList.add("active");
+        // Close settings dropdown
+        document.getElementById("settingsDropdown").classList.remove("active");
+        document.getElementById("settingsBtn").classList.remove("active");
+    });
+
+    aboutCloseBtn.addEventListener("click", () => {
+        aboutModal.classList.remove("active");
+    });
+
+    aboutModal.addEventListener("click", (e) => {
+        if (e.target === aboutModal) {
+            aboutModal.classList.remove("active");
+        }
+    });
 }
 
 // Settings menu setup
@@ -749,7 +890,7 @@ function setupSettingsMenu() {
 
 // Language selector setup
 function setupLanguageSelector() {
-    const langBtns = document.querySelectorAll(".lang-btn");
+    const languageSelect = document.getElementById("languageSelect");
 
     // Load saved language or detect from browser
     const savedLang = localStorage.getItem("workboardLang");
@@ -767,11 +908,10 @@ function setupLanguageSelector() {
         }
     }
 
-    langBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            const lang = btn.dataset.lang;
-            setLanguage(lang);
-        });
+    languageSelect.value = currentLang;
+
+    languageSelect.addEventListener("change", (e) => {
+        setLanguage(e.target.value);
     });
 
     updateLanguageUI();
@@ -786,8 +926,12 @@ function init() {
     // Setup font selector
     setupFontSelector();
 
+    // Setup theme selector
+    setupThemeSelector();
+
     // Setup settings menu
     setupSettingsMenu();
+    setupAboutModal();
 
     // Clock and countdown
     loadCountdownData();
