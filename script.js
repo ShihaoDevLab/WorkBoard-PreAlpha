@@ -78,8 +78,8 @@ function updateCountdown() {
             year: "numeric",
             month: "numeric",
             day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
+            // hour: "2-digit",
+            // minute: "2-digit",
         });
         document.getElementById("countdownText").textContent = `${countdownData.name} (${targetDateString}) ${t("countdownHasArrived")}`;
         return;
@@ -95,25 +95,30 @@ function updateCountdown() {
         year: "numeric",
         month: "numeric",
         day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
+        // hour: "2-digit",
+        // minute: "2-digit",
     });
 
     let text = `${t("countdownTimeUntil")}${countdownData.name} (${targetDateString}): `;
 
     if (days > 0) {
         text += `${days} ${days > 1 ? t("days") : t("day")} `;
-    }
-    
-    if (days > 0 || hours > 0) {
+        if (hours > 0) {
+            text += `${hours} ${hours > 1 ? t("hours") : t("hour")} `;
+        }
+    } else if (hours > 0) {
         text += `${hours} ${hours > 1 ? t("hours") : t("hour")} `;
-    }
-    
-    if (days > 0 || hours > 0 || minutes > 0) {
+        if (minutes > 0) {
+            text += `${minutes} ${minutes > 1 ? t("minutes") : t("minute")} `;
+        }
+    } else if (minutes > 0) {
         text += `${minutes} ${minutes > 1 ? t("minutes") : t("minute")} `;
+        if (seconds > 0) {
+            text += `${seconds} ${seconds > 1 ? t("seconds") : t("second")}`;
+        }
+    } else {
+        text += `${seconds} ${seconds > 1 ? t("seconds") : t("second")}`;
     }
-    
-    text += `${seconds} ${seconds > 1 ? t("seconds") : t("second")}`;
 
     document.getElementById("countdownText").textContent = text;
 }

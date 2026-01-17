@@ -108,8 +108,8 @@ body {
 }
 
 .countdown-tag {
-    width: 100%;
-    max-width: 500px;
+    width: 50%;
+    max-width: 600px;
     height: 60px;
     background: var(--tag-bg);
     border-radius: 15px;
@@ -689,7 +689,7 @@ body {
 
     .countdown-tag {
         height: 50px;
-        max-width: 380px;
+        max-width: 480px;
         padding: 0 12px;
         gap: 12px;
     }
