@@ -492,41 +492,41 @@ function resetTimer() {
 function initBlackboard() {
     blackboardCanvas = document.getElementById("blackboardCanvas");
     blackboardCtx = blackboardCanvas.getContext("2d");
-    
+
     // Set canvas size
     resizeBlackboard();
     window.addEventListener("resize", resizeBlackboard);
-    
+
     // Setup drawing events
     setupDrawingEvents();
-    
+
     // Load saved drawing
     loadBlackboardData();
 }
 
 function resizeBlackboard() {
     if (!blackboardCanvas) return;
-    
+
     const rect = blackboardCanvas.getBoundingClientRect();
     const tempCanvas = document.createElement("canvas");
     const tempCtx = tempCanvas.getContext("2d");
-    
+
     // Save current drawing
     if (blackboardImageData) {
         tempCanvas.width = blackboardCanvas.width;
         tempCanvas.height = blackboardCanvas.height;
         tempCtx.drawImage(blackboardCanvas, 0, 0);
     }
-    
+
     // Resize canvas
     blackboardCanvas.width = rect.width * window.devicePixelRatio;
     blackboardCanvas.height = rect.height * window.devicePixelRatio;
     blackboardCanvas.style.width = rect.width + "px";
     blackboardCanvas.style.height = rect.height + "px";
-    
+
     // Scale context for high DPI displays
     blackboardCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    
+
     // Restore drawing
     if (blackboardImageData) {
         blackboardCtx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height, 0, 0, blackboardCanvas.width, blackboardCanvas.height);
@@ -539,7 +539,7 @@ function setupDrawingEvents() {
     blackboardCanvas.addEventListener("mousemove", draw);
     blackboardCanvas.addEventListener("mouseup", stopDrawing);
     blackboardCanvas.addEventListener("mouseout", stopDrawing);
-    
+
     // Touch events for mobile
     blackboardCanvas.addEventListener("touchstart", handleTouch);
     blackboardCanvas.addEventListener("touchmove", handleTouch);
@@ -556,11 +556,11 @@ function startDrawing(e) {
 
 function draw(e) {
     if (!isDrawing) return;
-    
+
     const rect = blackboardCanvas.getBoundingClientRect();
     const currentX = e.clientX - rect.left;
     const currentY = e.clientY - rect.top;
-    
+
     blackboardCtx.beginPath();
     blackboardCtx.moveTo(lastX, lastY);
     blackboardCtx.lineTo(currentX, currentY);
@@ -569,10 +569,10 @@ function draw(e) {
     blackboardCtx.lineCap = "round";
     blackboardCtx.lineJoin = "round";
     blackboardCtx.stroke();
-    
+
     lastX = currentX;
     lastY = currentY;
-    
+
     // Save drawing data
     saveBlackboardData();
 }
@@ -585,13 +585,13 @@ function handleTouch(e) {
     e.preventDefault();
     const touch = e.touches[0];
     if (!touch) return;
-    
+
     const rect = blackboardCanvas.getBoundingClientRect();
     const mouseEvent = {
         clientX: touch.clientX,
         clientY: touch.clientY
     };
-    
+
     if (e.type === "touchstart") {
         startDrawing(mouseEvent);
     } else if (e.type === "touchmove") {
