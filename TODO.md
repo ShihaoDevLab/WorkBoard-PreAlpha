@@ -1,6 +1,6 @@
 # To Do List
 
-- Fix existing bugs.
+- [x] Fix existing bugs.
 
 <!-- FOR AI TOOLS: DO NOT MODIFY THE LINE ABOVE -->
 
